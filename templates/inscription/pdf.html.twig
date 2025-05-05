@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Inscription</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; }
+        h1 { font-size: 18px; }
+        p { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Données d'inscription</h1>
+    <p><strong>Nom :</strong> {{ inscription.nom }}</p>
+    <p><strong>Prénom :</strong> {{ inscription.prenom }}</p>
+    <p><strong>Email :</strong> {{ inscription.email }}</p>
+    <p><strong>Téléphone :</strong> {{ inscription.tel }}</p>
+
+    <h2>Informations complémentaires</h2>
+    <p><strong>Statut :</strong> {{ ageStatus }}</p>
+    <p><strong>Communication FFJDA :</strong> {{ ffjdaCom }}</p>
+    <p><strong>Autorisation parentale :</strong><br>{{ parentText|nl2br }}</p>
+    <p><strong>Droit à l'image :</strong><br>{{ imageRightText|nl2br }}</p>
+    <p><strong>Certificat médical :</strong> {{ certifMed }}</p>
+</body>
+</html>

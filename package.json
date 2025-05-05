@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/timegrid": "^6.1.17",
+    "@hotwired/stimulus": "^3.2.2",
+    "@symfony/stimulus-bridge": "^4.0.0",
+    "@symfony/webpack-encore": "^5.1.0",
+    "core-js": "^3.41.0",
+    "fullcalendar": "^6.1.17"
+  },
+  "scripts": {
+    "dev": "encore dev",
+    "build": "encore production"
+  }
+}

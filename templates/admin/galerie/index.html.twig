@@ -1,0 +1,29 @@
+{# templates/admin/galerie/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie{% endblock %}
+
+{% block body %}
+    <h1>Gestion des Albums</h1>
+
+    <a href="{{ path('admin_album_new') }}" class="btn btn-primary">Ajouter un Nouvel Album</a>
+
+    <h2>Liste des Albums</h2>
+    <div class="row">
+        {% for album in albums %}
+            <div class="col-md-4 mb-4">
+                <a href="{{ path('admin_album_show', { id: album.id }) }}" class="text-decoration-none text-dark">
+    <div class="card h-100">
+        <div class="card-body">
+            <h5 class="card-title">{{ album.nom }}</h5>
+            <p class="card-text">{{ album.description }}</p>
+        </div>
+    </div>
+</a>
+
+            </div>
+        {% else %}
+            <p>Aucun album disponible.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

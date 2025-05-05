@@ -1,0 +1,57 @@
+{# templates/admin/galerie/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item active" aria-current="page">Galerie</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1>Gestion des Albums</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin_album_new') }}" class="btn btn-primary mb-3">Ajouter un Nouvel Album</a>
+    {% endif %}
+
+    <h2>Liste des Albums</h2>
+    <div class="row">
+        {% for album in albums %}
+            {% set firstPhoto = album.photos|first %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-white" style="
+                    position: relative;
+                    background-image: {% if firstPhoto and firstPhoto.imagePath %}url('{{ asset(firstPhoto.imagePath) }}'){% else %}none{% endif %};
+                    background-size: cover;
+                    background-position: center;
+                    height: 250px;
+                ">
+                    <div class="card-body d-flex flex-column justify-content-between" style="background-color: rgba(0, 0, 0, 0.5); height: 100%;">
+                        <div>
+                            <h5 class="card-title">
+                                <a href="{{ path('galerie_show', { id: album.id }) }}" class="text-white text-decoration-none">
+                                    {{ album.nom }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ album.description }}</p>
+                        </div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <form method="post" action="{{ path('admin_album_delete', { id: album.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet album ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
+                                <button class="btn btn-danger btn-sm mt-2">Supprimer</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun album disponible.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

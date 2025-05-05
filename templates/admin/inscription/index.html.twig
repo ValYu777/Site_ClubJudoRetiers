@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Résultats{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Inscriptions enregistrés</h1>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Tel</th>
+                <th>NumLicence</th>
+                <th>Grade</th>
+                <th>Adresse</th>
+                <th>Date de Naissance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscription in inscriptions %}
+                <tr>
+                    <td>{{ inscription.nom }}</td>
+                    <td>{{ inscription.prenom }}</td>
+                    <td>{{ inscription.email }}</td>
+                    <td>{{ inscription.tel }}</td>
+                    <td>{{ inscription.numLicence }}</td>
+                    <td>{{ inscription.grade }}</td>
+                    <td>{{ inscription.Adresse }}</td>
+                    <td>{{ inscription.dateNaissance|date('d/m/Y') }}</td>
+
+                    
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun résultat enregistré.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

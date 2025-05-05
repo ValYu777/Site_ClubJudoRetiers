@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Cours{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item active" aria-current="page">Horaires</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Gérer les cours</h1>
+
+        <a href="{{ path('admin_cours_new') }}" class="btn btn-success mb-3">Ajouter un cours</a>
+
+        {% if cours is not empty %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Jour</th>
+                        <th>Heure de début</th>
+                        <th>Heure de fin</th>
+                        <th>Discipline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cour in cours %}
+                        <tr>
+                            <td>{{ cour.jour }}</td>
+                            <td>{{ cour.heureDebut|date('H:i') }}</td>
+                            <td>{{ cour.heureFin|date('H:i') }}</td>
+                            <td>{{ cour.discipline }}</td>
+                            <td>
+                                <a href="{{ path('admin_cours_delete', {id: cour.id}) }}" 
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Confirmer la suppression du cours ?')">
+                                    Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info">
+                Aucun cours enregistré pour le moment.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

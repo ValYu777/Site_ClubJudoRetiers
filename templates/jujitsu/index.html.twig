@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ju-jitsu / Self-défense{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Disciplines</li>
+        <li class="breadcrumb-item active" aria-current="page">Ju-Jitsu Self-défense</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="mb-4 text-center">🥋 Le Ju-jitsu (Self-défense)</h1>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <p>
+                Le Ju-jitsu, art martial ancestral japonais, est l’une des disciplines les plus complètes en matière de self-défense.
+                Héritier direct des techniques des samouraïs, il combine des mouvements de projections, des clés articulaires,
+                des contrôles au sol et des frappes ciblées.
+            </p>
+            <p>
+                Accessible à tous, quel que soit le niveau ou la condition physique, le Ju-jitsu se pratique dans un cadre sécurisant,
+                avec une attention particulière portée à la progression technique et au respect de l’intégrité physique.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Techniques de Ju-jitsu" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 order-md-2">
+            <p>
+                Plus qu’un système d’autodéfense efficace, le Ju-jitsu est une véritable discipline de maîtrise de soi.
+                Il enseigne à désamorcer les conflits, à gérer son stress face à une agression, et à répondre de manière contrôlée et adaptée aux situations de danger.
+            </p>
+            <p>
+                Rejoindre un cours de Ju-jitsu, c’est apprendre à se défendre, mais aussi à mieux se connaître.
+                C’est une pratique enrichissante, aussi bien sur le plan physique que mental, qui développe la confiance, l’assurance et l’équilibre intérieur.
+            </p>
+        </div>
+        <div class="col-md-6 order-md-1 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Cours de Self-défense" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col text-center">
+            <h2 class="h4">👩‍🦰 Une discipline particulièrement adaptée aux femmes</h2>
+            <div class="alert alert-warning mt-3 mx-auto" style="max-width: 700px;">
+                Le Ju-jitsu Self-défense est une discipline particulièrement recommandée pour les femmes souhaitant acquérir des réflexes
+                d’autodéfense simples et efficaces, dans un environnement respectueux et bienveillant.
+                Les cours permettent de développer l’assurance, la capacité à réagir face à une agression, et de gagner en sérénité au quotidien.
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Femmes en cours de Ju-jitsu" class="img-fluid rounded shadow img-small">
+            <p class="mt-2 text-muted"><small>Un espace sécurisant pour apprendre à se défendre efficacement.</small></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .img-medium {
+        max-width: 80%;
+        height: auto;
+    }
+
+    .img-small {
+        max-width: 50%;
+        height: auto;
+    }
+</style>
+{% endblock %}

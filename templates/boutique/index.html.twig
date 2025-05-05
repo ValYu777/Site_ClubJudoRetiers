@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item active" aria-current="page">Boutique</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block body %}
+<h1>Nos produits</h1>
+
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.name }}</strong><br>
+            {{ product.description }}<br>
+            Prix : {{ product.price|number_format(2, ',', ' ') }} €<br>
+            <a href="{{ path('cart_add', {'id': product.id}) }}">Ajouter au panier</a>
+        </li>
+    {% else %}
+        <li>Aucun produit pour le moment</li>
+    {% endfor %}
+</ul>
+{% endblock %}

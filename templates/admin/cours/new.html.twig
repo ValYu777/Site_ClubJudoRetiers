@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Cours{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item active" aria-current="page">Horaires</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un cours</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary mt-3">Créer</button>
+    {{ form_end(form) }}
+{% endblock %}

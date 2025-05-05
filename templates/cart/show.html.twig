@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+<h1>Votre panier</h1>
+
+{% if items is empty %}
+    <p>Votre panier est vide.</p>
+{% else %}
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price|number_format(2, ',', ' ') }} €</td>
+                    <td>{{ (item.product.price * item.quantity)|number_format(2, ',', ' ') }} €</td>
+                    <td><a href="{{ path('cart_remove', {'id': item.product.id}) }}">Retirer</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total : {{ total|number_format(2, ',', ' ') }} €</h3>
+{% endif %}
+<a href="{{ path('product_index') }}">⬅️ Retour à la boutique</a>
+{% endblock %}

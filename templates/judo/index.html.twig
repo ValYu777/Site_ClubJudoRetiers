@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Judo{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Disciplines</li>
+        <li class="breadcrumb-item active" aria-current="page">Judo</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="mb-4 text-center">🥋 Le Judo</h1>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <p>
+                Le Judo, qui signifie littéralement « la voie de la souplesse », est bien plus qu’un simple sport de combat.
+                Fondé par le maître japonais Jigoro Kano en 1882, il incarne une véritable philosophie de vie, basée sur le respect,
+                le dépassement de soi et la coopération.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Combat de judo" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 order-md-2">
+            <p>
+                Sur le tatami, les judokas apprennent à utiliser la force de leur adversaire pour le maîtriser sans violence, grâce à des techniques
+                précises de projection, d’immobilisation et de soumission. Le judo forge autant le corps que l’esprit.
+                C’est une discipline éducative, ouverte à tous dès le plus jeune âge, qui développe la confiance en soi,
+                la maîtrise corporelle et le respect des autres.
+            </p>
+        </div>
+        <div class="col-md-6 order-md-1 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Enfants pratiquant le judo" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <p>
+                Rejoindre un cours de judo, c’est entrer dans une école de vie où l’on apprend autant à tomber qu’à se relever,
+                à vaincre qu’à se maîtriser. C’est aussi un excellent outil de socialisation et d’épanouissement personnel,
+                dans un cadre sécurisé et bienveillant.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <h2 class="h4">🎓 Les passages de grade</h2>
+            <p>
+                Les passages de grade ne sont <strong>pas automatiques</strong>. Ils dépendent de l’implication des élèves dans les cours,
+                leur progression technique, ainsi que leur participation aux compétitions amicales et à la vie du club.
+                Le professeur suit chaque judoka tout au long de l’année afin d’évaluer sa motivation, son comportement et sa régularité.
+            </p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Ceintures de judo" class="img-fluid rounded shadow img-small">
+            <p class="mt-2 text-muted"><small>Le parcours d’un judoka se mesure autant par ses efforts que par ses résultats.</small></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .img-medium {
+        max-width: 80%;
+        height: auto;
+    }
+
+    .img-small {
+        max-width: 50%;
+        height: auto;
+    }
+</style>
+{% endblock %}

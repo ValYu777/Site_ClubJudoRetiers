@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taïso{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Disciplines</li>
+        <li class="breadcrumb-item active" aria-current="page">Taïso</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container py-4">
+    <h1 class="mb-4 text-center">🧘‍♂️ Le Taïso</h1>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <p>
+                Le Taïso, issu des traditions martiales japonaises, signifie « préparation du corps ». Cette discipline douce et accessible à tous se concentre
+                sur le bien-être physique et mental, sans aucun contact ni combat.
+            </p>
+            <p>
+                Véritable alternative au fitness classique, le Taïso propose des exercices variés : renforcement musculaire, étirements, travail de l’équilibre,
+                respiration, coordination et relaxation. Que vous soyez sportif débutant, senior ou en reprise d’activité physique, le Taïso s’adapte à votre rythme.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Séance de Taïso" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6 order-md-2">
+            <p>
+                Chaque séance se déroule dans une atmosphère conviviale, propice à l'écoute de son corps et à la détente. Le but est de préserver sa santé,
+                d’améliorer sa posture, sa souplesse et sa tonicité, tout en se reconnectant à soi-même.
+            </p>
+            <p>
+                Venez découvrir le plaisir d’une activité physique respectueuse du corps et de ses limites. Le Taïso, c’est une parenthèse de bien-être hebdomadaire,
+                un moment pour soi dans une ambiance chaleureuse.
+            </p>
+        </div>
+        <div class="col-md-6 order-md-1 text-center">
+            <img src="{{ asset('images/logo_judo.png') }}" alt="Détente en Taïso" class="img-fluid rounded shadow img-medium">
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col text-center">
+            <h2 class="h4">🏥 Le Taïso et le programme Sport Santé Bretagne</h2>
+            <div class="alert alert-info mt-3 mx-auto" style="max-width: 700px;">
+                Le Taïso fait partie intégrante du <strong>programme Sport Santé Bretagne</strong>. Il est reconnu pour ses bienfaits
+                sur la santé physique et mentale, notamment pour les personnes souhaitant reprendre une activité douce,
+                en prévention ou en accompagnement de pathologies chroniques.
+                C’est une excellente porte d’entrée vers une vie active, adaptée à tous les âges.
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <img src="{{ asset('images/sport_sante.png') }}" alt="Sport Santé Bretagne" class="img-fluid rounded shadow img-small">
+            <p class="mt-2 text-muted"><small>Un pas vers le bien-être, reconnu par les professionnels de santé.</small></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .img-medium {
+        max-width: 80%;
+        height: auto;
+    }
+
+    .img-small {
+        max-width: 50%;
+        height: auto;
+    }
+</style>
+{% endblock %}

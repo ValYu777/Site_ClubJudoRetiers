@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des Inscriptions</h1>
+
+    {# Affichage du formulaire de filtre #}
+    {{ form_start(filterForm) }}
+    {{ form_widget(filterForm) }}
+    <button class="btn btn-primary">Filtrer</button>
+    {{ form_end(filterForm) }}
+
+    {# Affichage des inscriptions filtrées #}
+    <h2>Inscriptions</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Grade</th>
+                <th>Date de naissance</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscription in inscriptions %}
+                <tr>
+                    <td>{{ inscription.nom }}</td>
+                    <td>{{ inscription.prenom }}</td>
+                    <td>{{ inscription.grade }}</td>
+                    <td>{{ inscription.dateNaissance|date('d/m/Y') }}</td>
+                    <td>{{ inscription.adresse }}</td>
+                    <td>{{ inscription.email }}</td>
+                    <td>
+                        <form action="{{ path('inscription_delete', {'id': inscription.id}) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette inscription ?');">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucune inscription trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     <!-- Bouton pour copier les e-mails -->
+    <button id="copyEmailsBtn">Copier les e-mails</button>
+
+    <!-- Ajoutez un champ caché pour stocker les e-mails à copier -->
+    <textarea id="emailsToCopy" style="display:none;">
+        {% for email in emails %}
+            {{ email }}
+        {% endfor %}
+    </textarea>
+
+     <script>
+        document.getElementById('copyEmailsBtn').addEventListener('click', function() {
+            var emailsText = document.getElementById('emailsToCopy').value;
+            
+            // Créez un élément temporaire pour copier dans le presse-papiers
+            var textarea = document.createElement('textarea');
+            textarea.value = emailsText;
+            document.body.appendChild(textarea);
+            
+            // Sélectionner et copier le texte
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Retirer l'élément temporaire
+            document.body.removeChild(textarea);
+            
+            alert('Les adresses e-mail ont été copiées dans le presse-papiers!');
+        });
+    </script>
+{% endblock %}

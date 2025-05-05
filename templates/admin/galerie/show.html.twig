@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Album : {{ album.nom }}{% endblock %}
+
+{% block body %}
+    <h1>Album : {{ album.nom }}</h1>
+    <p>{{ album.description }}</p>
+
+    <h2>Photos</h2>
+    <div class="row">
+        {% for photo in album.photos %}
+            <div class="col-md-3 mb-4">
+                {% if photo.imagePath %}
+                    <img 
+                        src="{{ asset(photo.imagePath) }}" 
+                        alt="{{ photo.titre }}" 
+                        class="img-fluid rounded mb-3"
+                    >
+                {% else %}
+                    <div class="img-placeholder border rounded bg-light text-center p-3 mb-3">Pas d'image disponible</div>
+                {% endif %}
+                <!-- suppression -->
+                <form 
+                    method="post" 
+                    action="{{ path('admin_photo_delete', {id: photo.id}) }}"
+                    onsubmit="return confirm('Êtes-vous sûr ?');"
+                >
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Aucune photo dans cet album.</p>
+        {% endfor %}
+    </div>
+
+    <h3>Ajouter une photo</h3>
+    {{ form_start(form) }}
+        {{ form_row(form.titre) }}
+        {{ form_row(form.imageFile) }}
+        <button class="btn btn-success">Ajouter</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin_galerie_index') }}" class="btn btn-secondary mt-4">Retour à la galerie</a>
+{% endblock %}

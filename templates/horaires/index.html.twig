@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning de la semaine{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item active" aria-current="page">Horaires</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <h1>Planning de la Semaine</h1>
+
+    <div id="calendar-semaine"></div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('admin_cours_index') }}" class="btn btn-primary">Gérer les cours</a>  {# Nouveau bouton pour les cours #}
+    </div>
+{% endif %}
+
+{% endblock %}
+
+

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Événements{% endblock %}
+
+
+{% block body %}
+    <h1>Gérer les événements</h1>
+
+    <a href="{{ path('admin_evenement_new') }}" class="btn btn-success">Ajouter un événement</a>
+
+    <ul>
+        {% for evenement in evenements %}
+            <li>
+                <strong>{{ evenement.titre }}</strong> 
+                (du {{ evenement.start|date('d/m/Y H:i') }} au {{ evenement.end|date('d/m/Y H:i') }})
+                - {{ evenement.discipline }}
+                <a href="{{ path('admin_evenement_delete', {'id': evenement.id}) }}" 
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Confirmer la suppression ?')">
+                   Supprimer
+                </a>
+            </li>
+        {% else %}
+            <li>Aucun événement.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

@@ -1,0 +1,19 @@
+cart_show:
+    path: /cart
+    controller: App\Controller\CartController::show
+
+cart_add:
+    path: /cart/add/{id}
+    controller: App\Controller\CartController::add
+
+cart_remove:
+    path: /cart/remove/{id}
+    controller: App\Controller\CartController::remove
+
+product_index:
+    path: /products
+    controller: App\Controller\ProductController::index
+
+product_show:
+    path: /product/{id}
+    controller: App\Controller\ProductController::show

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Résultats{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Résultats enregistrés</h1>
+
+    <a href="{{ path('admin_resultat_new') }}" class="btn btn-success mb-3">Ajouter un résultat</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Compétition</th>
+                <th>Compétiteur</th>
+                <th>Résultat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultat in resultats %}
+                <tr>
+                    <td>{{ resultat.competition }}</td>
+                    <td>{{ resultat.competiteur }}</td>
+                    <td>{{ resultat.resultat }}</td>
+                    <td>
+                        <a href="{{ path('admin_resultat_delete', {id: resultat.id}) }}" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer ce résultat ?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun résultat enregistré.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
