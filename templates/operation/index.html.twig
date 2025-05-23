@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Opérations{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent px-3">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Actualités</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Opérations</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Opérations</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="text-center mb-4">
+        <a href="{{ path('admin_operation_new') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Ajouter une opération
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        {% for operation in operations %}
+            <div class="col-md-4 col-sm-12 mb-3">
+                <div class="card operation-card" style="background-image: url('{{ asset('uploads/operations/' ~ operation.imagePath) }}');">
+                    <div class="card-body text-white d-flex align-items-center justify-content-center">
+                        <h5 class="card-title text-center">{{ operation.nom }}</h5>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <p class="text-muted">{{ operation.dateDebut|date('d-m-Y') }} - {{ operation.dateFin|date('d-m-Y') }}</p>
+
+                    
+                    <a href="{{ path('operation_show', {'id': operation.id}) }}" class="btn btn-light btn-sm">
+                        Voir détails
+                    </a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <div class="mt-2">
+                        <form method="post" action="{{ path('admin_operation_delete', { 'id': operation.id }) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette opération ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ operation.id) }}">
+                            <button class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Supprimer
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p class="text-center text-muted">Aucune opération disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+<div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Card Styles */
+        .operation-card {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .operation-card:hover {
+            transform: scale(1.05);
+        }
+
+        .operation-card .card-body {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); /* Stronger text shadow for better visibility */
+            padding: 0;
+        }
+
+        .operation-card .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Button styles */
+        .btn-light {
+            border-radius: 25px;
+        }
+
+        .btn-danger {
+            border-radius: 25px;
+        }
+
+        /* Add some spacing between the date and the buttons */
+        .text-center.mt-3 {
+            margin-top: 10px;
+        }
+
+        /* Ensure the operations are responsive */
+        @media (max-width: 767px) {
+            .operation-card {
+                height: 180px;
+            }
+        }
+
+        /* Modal and Confirmation Style Adjustments */
+        form button {
+            padding: 10px 15px;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats des compétitions{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent px-3">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Actualités</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Résultats</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-4 mb-5">
+    <h1 class="text-center mb-4">Résultats des compétitions</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="text-center mb-4">
+            <a href="{{ path('admin_competition_new') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Ajouter une compétition
+            </a>
+        </div>
+    {% endif %}
+
+    {% if competitions is empty %}
+        <p class="text-center text-muted">Aucune compétition enregistrée pour le moment.</p>
+    {% else %}
+        {% for competition in competitions %}
+            <div class="card shadow-sm mb-5">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ competition.nom }}</h5>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="d-flex gap-2">
+                            <a href="{{ path('admin_resultat_new', { competition_id: competition.id }) }}" class="btn btn-sm btn-outline-light">
+                                <i class="bi bi-plus-lg"></i> Ajouter un résultat
+                            </a>
+
+                            <form method="post" action="{{ path('admin_competition_delete', { id: competition.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette compétition ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ competition.id) }}">
+                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Supprimer</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="card-body">
+                    {% if competition.resultats is empty %}
+                        <p class="text-muted mb-0">Aucun résultat pour cette compétition.</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Compétiteur</th>
+                                        <th>Résultat</th>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Action</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for resultat in competition.resultats %}
+                                        <tr>
+                                            <td>{{ resultat.competiteur }}</td>
+                                            <td>{{ resultat.resultat }}</td>
+
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <td>
+                                                    <form method="post" action="{{ path('admin_resultat_delete', { id: resultat.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce résultat ?');">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ resultat.id) }}">
+                                                        <button class="btn btn-sm btn-danger">
+                                                            <i class="bi bi-trash"></i> Supprimer
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
+{% endblock %}

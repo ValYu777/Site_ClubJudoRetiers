@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Opérations{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Opérations</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="mb-4">
+        <a href="{{ path('admin_operation_new') }}" class="btn btn-success">Ajouter une opération</a>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        {% for operation in operations %}
+            <div class="col-md-4 mb-3">
+                <div class="card operation-card" style="background-image: url('{{ asset('uploads/operations/' ~ operation.imagePath) }}');">
+                    <div class="card-body text-white d-flex align-items-center justify-content-center">
+                        <h5 class="card-title text-center">{{ operation.nom }}</h5>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="text-muted">{{ operation.dateDebut|date('d-m-Y') }} - {{ operation.dateFin|date('d-m-Y') }}</p>
+                    <a href="{{ path('operation_show', {'id': operation.id}) }}" class="btn btn-light btn-sm">Voir détails</a>
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <form method="post" action="{{ path('admin_operation_delete', { 'id': operation.id }) }}" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette opération ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ operation.id) }}">
+                        <button class="btn btn-danger btn-sm mt-2">Supprimer</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p>Aucune opération disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .operation-card {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .operation-card .card-body {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow for better visibility */
+            padding: 0;
+        }
+
+        .operation-card .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card-body {
+            background-color: rgba(0, 0, 0, 0.4); /* semi-transparent background for better text contrast */
+        }
+    </style>
+{% endblock %}

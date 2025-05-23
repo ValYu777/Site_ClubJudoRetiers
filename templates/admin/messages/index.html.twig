@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages Contact{% endblock %}
+
+{% block body %}
+    <h1>Messages reçus</h1>
+
+    {% if messages is empty %}
+        <p>Aucun message pour le moment.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in messages %}
+                    <tr>
+                        <td>{{ msg.name }}</td>
+                        <td>{{ msg.email }}</td>
+                        <td>{{ msg.message|nl2br }}</td>
+                        <td>{{ msg.createdAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

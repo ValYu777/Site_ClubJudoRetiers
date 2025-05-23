@@ -1,0 +1,89 @@
+body {
+    background: linear-gradient(135deg, #f0f4f7 0%, #dfe6eb 100%);
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.main-content {
+    margin: 20px auto;
+    max-width: 1200px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: #1e1e2f;
+    z-index: 1000;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+    color: #fff !important;
+}
+
+footer {
+    background-color: #1e1e2f;
+    color: #ccc;
+    padding: 30px 0;
+    margin-top: 50px;
+    text-align: center;
+}
+
+footer a {
+    color: #ccc;
+}
+
+footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    top: 100%;
+}
+
+.dropdown-menu {
+    background-color: #2e2e42;
+    border: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    z-index: 1050;
+}
+
+.dropdown-item {
+    color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #b3001b;
+}
+
+@media (max-width: 991px) {
+    .navbar-nav .dropdown-menu {
+        position: static;
+        box-shadow: none;
+    }
+}
+
+#calendar {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+}

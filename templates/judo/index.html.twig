@@ -14,7 +14,7 @@
 
 {% block body %}
 <div class="container py-4">
-    <h1 class="mb-4 text-center">🥋 Le Judo</h1>
+    <h1 class="mb-4 text-center">Le Judo</h1>
 
     <div class="row align-items-center mb-5">
         <div class="col-md-6">
@@ -25,7 +25,7 @@
             </p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Combat de judo" class="img-fluid rounded shadow img-medium">
+            <img src="{{ asset('images/photo_galerie.jpg') }}" alt="Combat de judo" class="img-fluid rounded shadow img-medium">
         </div>
     </div>
 
@@ -39,7 +39,7 @@
             </p>
         </div>
         <div class="col-md-6 order-md-1 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Enfants pratiquant le judo" class="img-fluid rounded shadow img-medium">
+            <img src="{{ asset('images/photo_judo2.jpg') }}" alt="Enfants pratiquant le judo" class="img-fluid rounded shadow img-medium">
         </div>
     </div>
 
@@ -55,7 +55,7 @@
 
     <div class="row mb-5">
         <div class="col">
-            <h2 class="h4">🎓 Les passages de grade</h2>
+            <h2 class="h4">Les passages de grade</h2>
             <p>
                 Les passages de grade ne sont <strong>pas automatiques</strong>. Ils dépendent de l’implication des élèves dans les cours,
                 leur progression technique, ainsi que leur participation aux compétitions amicales et à la vie du club.
@@ -66,11 +66,14 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Ceintures de judo" class="img-fluid rounded shadow img-small">
+            <img src="{{ asset('images/photo_judo.jpg') }}" alt="Ceintures de judo" class="img-fluid rounded shadow img-small">
             <p class="mt-2 text-muted"><small>Le parcours d’un judoka se mesure autant par ses efforts que par ses résultats.</small></p>
         </div>
     </div>
 </div>
+<div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
 {% endblock %}
 
 {% block stylesheets %}

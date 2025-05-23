@@ -12,17 +12,107 @@
     </nav>
 {% endblock %}
 
-{% block body %}
-    <h1>Planning de la Semaine</h1>
+{% block stylesheets %}
+    <style>
+        /* Titre principal */
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #333;
+        }
 
-    <div id="calendar-semaine"></div>
+        /* Conteneur principal pour la page */
+        .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;  /* Alignement vertical du titre et du calendrier */
+            padding: 40px;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-    {% if is_granted('ROLE_ADMIN') %}
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{{ path('admin_cours_index') }}" class="btn btn-primary">Gérer les cours</a>  {# Nouveau bouton pour les cours #}
-    </div>
-{% endif %}
+        /* Calendrier */
+#calendar-semaine {
+    flex: 1;
+    max-width: 90%;
+    width: 100%;
+    margin: 0 auto;
+    background-color: white; /* ✅ Fond blanc ajouté ici */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px; /* ✅ Pour que le contenu ne touche pas les bords */
+}
 
+        /* Style du bouton pour les administrateurs */
+        .btn-primary {
+            background-color: #1e1e2f;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #b3001b;
+        }
+
+        /* Responsivité */
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 20px;
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #calendar-semaine {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+                /* Boutons de navigation FullCalendar */
+.fc .fc-button {
+    background-color: rgb(40, 49, 124); /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover */
+.fc .fc-button:hover {
+    background-color: rgb(70, 78, 149); /* Rouge foncé au survol */
+    color: white;
+}
+    </style>
 {% endblock %}
 
+{% block body %}
+    <div class="page-container">
+        <h1>Planning des Cours</h1>
 
+        <div id="calendar-semaine"></div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ path('admin_cours_index') }}" class="btn btn-primary">Gérer les cours</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
+{% endblock %}

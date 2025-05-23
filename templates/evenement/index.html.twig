@@ -25,7 +25,7 @@
                 <td>{{ evenement.description }}</td>
                 <td>{{ evenement.start ? evenement.start|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ evenement.end ? evenement.end|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ evenement.discipline }}</td>
+                <td>{{ evenement.disciplines }}</td>
                 <td>
                     <a href="{{ path('app_evenement_show', {'id': evenement.id}) }}">show</a>
                     <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}">edit</a>

@@ -3,55 +3,139 @@
 
 {% block title %}Galerie{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary.custom-btn {
+            background-color: #1e1e2f;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary.custom-btn:hover {
+            background-color: #b3001b;
+        }
+
+        .album-card {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .album-overlay {
+            background-color: transparent;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+
+        .btn-danger.btn-sm {
+            background-color: #b3001b;
+            border: none;
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+
+        .btn-danger.btn-sm:hover {
+            background-color: #7a0012;
+        }
+    </style>
+{% endblock %}
+
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
-            <li class="breadcrumb-item">Services</li>
+            <li class="breadcrumb-item">Actualités</li>
             <li class="breadcrumb-item active" aria-current="page">Galerie</li>
         </ol>
     </nav>
 {% endblock %}
 
 {% block body %}
-    <h1>Gestion des Albums</h1>
+    <div class="page-container">
+        <h1>Galerie</h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('admin_album_new') }}" class="btn btn-primary mb-3">Ajouter un Nouvel Album</a>
-    {% endif %}
-
-    <h2>Liste des Albums</h2>
-    <div class="row">
-        {% for album in albums %}
-            {% set firstPhoto = album.photos|first %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 text-white" style="
-                    position: relative;
-                    background-image: {% if firstPhoto and firstPhoto.imagePath %}url('{{ asset(firstPhoto.imagePath) }}'){% else %}none{% endif %};
-                    background-size: cover;
-                    background-position: center;
-                    height: 250px;
-                ">
-                    <div class="card-body d-flex flex-column justify-content-between" style="background-color: rgba(0, 0, 0, 0.5); height: 100%;">
-                        <div>
-                            <h5 class="card-title">
-                                <a href="{{ path('galerie_show', { id: album.id }) }}" class="text-white text-decoration-none">
-                                    {{ album.nom }}
-                                </a>
-                            </h5>
-                            <p class="card-text">{{ album.description }}</p>
-                        </div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <form method="post" action="{{ path('admin_album_delete', { id: album.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet album ?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
-                                <button class="btn btn-danger btn-sm mt-2">Supprimer</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div style="text-align: center;">
+                <a href="{{ path('admin_album_new') }}" class="btn btn-primary custom-btn">Ajouter un Nouvel Album</a>
             </div>
-        {% else %}
-            <p>Aucun album disponible.</p>
-        {% endfor %}
+        {% endif %}
+        
+
+        <div class="row">
+            {% for album in albums %}
+                {% set firstPhoto = album.photos|first %}
+                <div class="col-md-6 mb-4">
+                    <a href="{{ path('galerie_show', { id: album.id }) }}" style="text-decoration: none; color: inherit;">
+                    <div class="album-card text-white"
+                         style="background-image: {% if firstPhoto and firstPhoto.imagePath %}url('{{ asset(firstPhoto.imagePath) }}'){% else %}none{% endif %};">
+                        <div class="album-overlay">
+                            <div>
+                                <h5 class="card-title">
+                                    <a href="{{ path('galerie_show', { id: album.id }) }}">{{ album.nom }}</a>
+                                </h5>
+                            </div>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <form method="post"
+                                      action="{{ path('admin_album_delete', { id: album.id }) }}"
+                                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet album ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ album.id) }}">
+                                    <button class="btn btn-danger btn-sm mt-2">Supprimer</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                
+            {% else %}
+                <p style="text-align: center;">Aucun album disponible.</p>
+            {% endfor %}
+        </div>
     </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
 {% endblock %}

@@ -1,0 +1,44 @@
+{# templates/admin/operation/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une nouvelle opération{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Créer une nouvelle opération</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.dateDebut) }}
+            {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.dateFin) }}
+            {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.imageFile) }}
+            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+            <div class="form-text">Sélectionnez une image pour l'opération</div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Créer l'opération</button>
+        </div>
+        {{ form_end(form) }}
+    </form>
+</div>
+{% endblock %}

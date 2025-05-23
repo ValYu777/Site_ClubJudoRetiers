@@ -3,7 +3,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import frLocale from '@fullcalendar/core/locales/fr';
 
+
+
+// Assurez-vous que Tippy.js est chargé pour afficher les tooltips
+import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css'; // N'oubliez pas d'importer le style de Tippy.js
+
 document.addEventListener('DOMContentLoaded', function () {
+
     // Calendrier pour la vue semaine (Cours)
     var calendarElSemaine = document.getElementById('calendar-semaine');
     if (calendarElSemaine) {
@@ -11,18 +18,18 @@ document.addEventListener('DOMContentLoaded', function () {
             plugins: [dayGridPlugin, timeGridPlugin],
             initialView: 'timeGridWeek',  // Vue semaine
             locale: frLocale,
-            // events: '/api/cours', // ❌ SUPPRIMÉ car doublon
             eventDisplay: 'block',
             slotMinTime: "07:00:00", // 🔥 ajout ici
             slotMaxTime: "23:00:00", // 🔥 ajout ici
+            allDaySlot: false,
             eventSources: [{
                 url: '/api/cours', // API des cours
                 method: 'GET',
                 success: function(data) {
-                    console.log("Events loaded: ", data);
+                    console.log("Événements chargés: ", data);
                 },
                 failure: function() {
-                    console.log("Failed to load events.");
+                    console.log("Échec du chargement des événements.");
                 }
             }],
             displayEventTime: false,
@@ -47,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             eventDidMount: function (info) {
                 if (info.event.extendedProps.description && typeof tippy === 'function') {
+                    console.log('Création du tooltip pour:', info.el);
                     tippy(info.el, {
                         content: info.event.extendedProps.description,
                         theme: 'light',
@@ -55,22 +63,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         placement: 'top',
                         trigger: 'mouseenter focus',
                     });
+                } else {
+                    console.log('Pas de description ou Tippy.js n\'est pas chargé');
                 }
             }
         });
 
-        console.log('Calendar ready');
+        console.log('Calendrier Semaine prêt');
         calendarSemaine.render();
     }
 
-    // Calendrier pour la vue mois (événements) - tu peux laisser tel quel
+    // Calendrier pour la vue mois (Événements)
     var calendarEl = document.getElementById('calendar');
     if (calendarEl) {
         var calendar = new Calendar(calendarEl, {
             plugins: [dayGridPlugin, timeGridPlugin],
             initialView: 'dayGridMonth',
             locale: frLocale,
-            events: '/api/evenements',
             eventDisplay: 'block',
             displayEventTime: false,
             headerToolbar: {
@@ -78,46 +87,71 @@ document.addEventListener('DOMContentLoaded', function () {
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
+            eventSources: [
+                // ✅ Opérations en fond
+                {
+                    url: '/api/operations',
+                    method: 'GET',
+                    extraParams: {},
+                    failure: function () {
+                        console.log("Échec du chargement des opérations.");
+                    },
+
+                    eventDataTransform: function(eventData) {
+            eventData.display = 'background';
+            return eventData;
+        }
+                    
+                },
+                // 🎯 Événements classiques
+                {
+                    url: '/api/evenements',
+                    method: 'GET',
+                    failure: function () {
+                        console.log("Échec du chargement des événements.");
+                    }
+                }
+            ],
             views: {
                 dayGridMonth: {
                     displayEventTime: false,
                     eventTimeFormat: { hour: 'numeric', minute: '2-digit', hour12: false },
-                    eventContent: function(arg) {
+                    eventContent: function (arg) {
                         const backgroundColor = arg.event.backgroundColor || arg.event.extendedProps.color || '#3788d8';
-                    
+
                         const innerDiv = document.createElement('div');
                         innerDiv.textContent = arg.event.title;
                         innerDiv.style.backgroundColor = backgroundColor;
                         innerDiv.style.color = 'white';
                         innerDiv.style.padding = '2px';
                         innerDiv.style.borderRadius = '3px';
-                    
+
                         return { domNodes: [innerDiv] };
                     }
                 }
             },
-            eventClick: function (info) {
-                console.log('Événement cliqué :', info.event);
+            eventClick(info) {
                 const pdfUrl = info.event.extendedProps.pdfUrl;
-                if (pdfUrl) {
-                    window.open(pdfUrl, '_blank');
-                }
+                if (pdfUrl) window.open(pdfUrl, '_blank');
             },
-            eventDidMount: function (info) {
+            eventDidMount(info) {
                 if (info.event.extendedProps.description && typeof tippy === 'function') {
                     tippy(info.el, {
                         content: info.event.extendedProps.description,
                         theme: 'light',
-                        animation: 'scale',
+                        animation: 'fade',
                         delay: [100, 0],
                         placement: 'top',
                         trigger: 'mouseenter focus',
+                        maxWidth: '250px',
+                        interactive: true,
+                        arrow: true,
+                        zIndex: 9999,
                     });
                 }
             }
         });
 
-        console.log('Calendar ready');
         calendar.render();
     }
 

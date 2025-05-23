@@ -14,7 +14,7 @@
 
 {% block body %}
 <div class="container py-4">
-    <h1 class="mb-4 text-center">🥋 Le Ju-jitsu (Self-défense)</h1>
+    <h1 class="mb-4 text-center">Le Ju-jitsu (Self-défense)</h1>
 
     <div class="row align-items-center mb-5">
         <div class="col-md-6">
@@ -29,7 +29,7 @@
             </p>
         </div>
         <div class="col-md-6 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Techniques de Ju-jitsu" class="img-fluid rounded shadow img-medium">
+            <img src="{{ asset('images/photo_jujitsu2.jpg') }}" alt="Techniques de Ju-jitsu" class="img-fluid rounded shadow img-medium">
         </div>
     </div>
 
@@ -45,28 +45,33 @@
             </p>
         </div>
         <div class="col-md-6 order-md-1 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Cours de Self-défense" class="img-fluid rounded shadow img-medium">
+            <img src="{{ asset('images/photo_jujitsu.jpg') }}" alt="Cours de Self-défense" class="img-fluid rounded shadow img-medium">
         </div>
     </div>
 
     <div class="row mb-5">
-        <div class="col text-center">
-            <h2 class="h4">👩‍🦰 Une discipline particulièrement adaptée aux femmes</h2>
-            <div class="alert alert-warning mt-3 mx-auto" style="max-width: 700px;">
-                Le Ju-jitsu Self-défense est une discipline particulièrement recommandée pour les femmes souhaitant acquérir des réflexes
+        <div class="col">
+            <h2 class="h4">Une discipline particulièrement adaptée aux femmes</h2>
+            <p>
+               Le Ju-jitsu Self-défense est une discipline particulièrement recommandée pour les femmes souhaitant acquérir des réflexes
                 d’autodéfense simples et efficaces, dans un environnement respectueux et bienveillant.
                 Les cours permettent de développer l’assurance, la capacité à réagir face à une agression, et de gagner en sérénité au quotidien.
             </div>
+            </p>
         </div>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
-            <img src="{{ asset('images/logo_judo.png') }}" alt="Femmes en cours de Ju-jitsu" class="img-fluid rounded shadow img-small">
+            <img src="{{ asset('images/photo_jujitsu3.jpg') }}" alt="Femmes en cours de Ju-jitsu" class="img-fluid rounded shadow img-small">
             <p class="mt-2 text-muted"><small>Un espace sécurisant pour apprendre à se défendre efficacement.</small></p>
         </div>
     </div>
 </div>
+
+<div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
 {% endblock %}
 
 {% block stylesheets %}

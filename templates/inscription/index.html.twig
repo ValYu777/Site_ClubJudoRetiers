@@ -11,130 +11,227 @@
 {% endblock %}
 
 {% block body %}
-<h1>Inscription</h1>
+<style>
+    .btn-primary.custom-btn {
+    background-color: rgb(40, 49, 124);
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+}
 
-{{ form_start(form, {'attr': {'id': 'inscription-form'}}) }}
-    {{ form_widget(form) }}
 
-    <input type="hidden" name="popup_ageStatus" id="popup_ageStatus">
-    <input type="hidden" name="popup_ffjdaCom" id="popup_ffjdaCom">
-    <input type="hidden" name="popup_parentText" id="popup_parentText">
-    <input type="hidden" name="popup_imageRightText" id="popup_imageRightText">
-    <input type="hidden" name="popup_certifMed" id="popup_certifMed">
+.modal-dialog {
+    max-height: 80vh; /* Ne dépasse pas 90% de la hauteur de la fenêtre */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 110px;
+}
 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pdfModal">
-        Générer PDF
-    </button>
-{{ form_end(form) }}
+.modal-content {
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
 
-{% if is_granted('ROLE_ADMIN') %}
-<div style="text-align: center; margin-top: 20px;">
-    <a href="{{ path('admin_inscription_index') }}" class="btn btn-primary">Gérer les Inscriprions</a>
-</div>
+.modal-body {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+
+
+.btn-primary.custom-btn:hover {
+    background-color: rgb(70, 78, 149);
+}
+</style>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Inscription</h1>
+        {% if app.session.flashBag.has('success') %}
+    <div class="container mt-4">
+        {% for msg in app.session.flashBag.get('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
 
-<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="pdfModalLabel">Vérifications avant génération du PDF</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        {{ form_start(form, {'attr': {'id': 'inscription-form'}}) }}
+        <input type="hidden" name="popup_paymentMethod" id="popup_paymentMethod">
+<input type="hidden" name="popup_signed" id="popup_signed">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            {{ form_widget(form) }}
+
+                            <div class="text-center mt-4">
+                                <button type="button" class="btn btn-primary custom-btn" id="openModalBtn">
+    Confirmer l'inscription
+</button>
+
+
+                            </div>
+
+                            <input type="hidden" name="popup_ageStatus" id="popup_ageStatus">
+                            <input type="hidden" name="popup_ffjdaCom" id="popup_ffjdaCom">
+                            <input type="hidden" name="popup_parentText" id="popup_parentText">
+                            <input type="hidden" name="popup_imageRightText" id="popup_imageRightText">
+                            <input type="hidden" name="popup_certifMed" id="popup_certifMed">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="pdfChecksForm">
-                    <div class="mb-3">
-                        <label>Statut de l'adhérent :</label><br>
-                        <input type="radio" name="ageStatus" value="majeur" checked> Majeur
-                        <input type="radio" name="ageStatus" value="mineur"> Mineur
-                    </div>
+        {{ form_end(form) }}
 
-                    <div id="parentAuthorization" class="mb-3" style="display: none;">
-                        <label>Autorisation parentale :</label>
-                        <div>
-                            Je soussigné(e)
-                            <input type="text" id="parentName" placeholder="Nom du parent" class="form-control d-inline w-auto">
-                            parent ou tuteur légal de l'enfant
-                            <input type="text" id="childName" placeholder="Nom de l'enfant" class="form-control d-inline w-auto">
-                            autorise le professeur, les organisateurs et l'encadrement du club à prendre toutes les mesures nécessaires en cas d'urgence médicale.
-                        </div>
-                    </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-center mt-4">
+                <a href="{{ path('admin_inscription_index') }}" class="btn btn-primary custom-btn">Gérer les Inscriptions</a>
 
-                    <div class="mb-3">
-                        <label>ASSURANCE :</label><br>
-                        <div>
-                         L'établissement de la présente licence permet à son titulaire de bénéficier de l'assurance Responsabilité Civile souscrite par la FFJDA auprès de
-SMACL Assurance en partenariat avec le Crédit Agricole Assurances. Par ailleurs, la FFJDA lui donne la possibilité de nénéficier de l'assurance
-Accidents Corporels, souscrite auprès de SMACL Assurances en partenariat avec le Crédit Agricol Assurances. Le sousigné déclare avoir pris 
-connaissance et accepté l'ensemble de ces garanties telles qu'indiqué dans la dans la notice d'information qui lui est remise ce jour. Le montant de
-l'assurance Accidents Corporels est de 2,00€ TTC. L'adhésion à plusieurs disciplines fédérales n'entraine pas le cumul de garanties d'assurances. Le
-sousigné déclare avoir été informé, dans la notice d'assurance, des possibilités d'extensions optionnelles complémentaires aux garnties de base ou
-de toute autre garantie adaptée à sa situation qu'il peut avoir intérêt à souscrire personnellement auprès de de SMACL assurances en partenariat avec
-Crédit Agricole Assurances (bulletin de souscription disponible auprès du club téléchargeable sur le site internet de la FFJDA www.ffjda.com) ou 
-de l'assureur de son choix. La FFJDA informe ses licenciés de leur intérêt à souscrire une assurance Accidents Corporels. En cas de refus de
-souscription de l'assurance Accidents Corporels proposée par la FFJDA, le club doit s'assurer que le soussigné a bien pris connaissance des 
-informations assurances figurant au dos du formulaire à conservé par le licencié et qu'il prend sa décision en toute connaisssance de cause.
-                    </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>DONNEES PERSONNELLES : (RGPD)</label><br>
-                        <div> 
-                         Les données à carractère personnel vous concernant sont indispensable à la gestion de votre licence par la 
-FFJDA. A défaut, votre demande de licence ou renouvellement de licence ne pourra être prise en considération. Vous autorisez expressément la 
-FFJDA à traiter et conserver par informatique les données vous concernant. La FFJDA vous informe qu'elle est suceptible de vous adresser, en tant
-que licencié, des informations sur les activités et la vie de la fédération et des disciplines fédérales. Vous disposez d'un droit d'accès, de rectifiction
-et de mise à jour des données vous concernant auprès du service licence de la FFJDA licences@ffjudo.com, auprès de votre club via l'espace club ou 
-directement via votre espace licencié. Je souhaite recevoir par la FFJDA, des informations ou des offres notament commerciales de partenaires 
-économiques de la FFJDA (vos données personnelles ne seront pas transmises à ces partenaires) : </div>
-                        <input type="radio" name="ffjdaCom" value="oui"> Oui
-                        <input type="radio" name="ffjdaCom" value="non" checked> Non
-                    </div>
-
-                    <div class="mb-3">
-                        <label>DROIT A L'IMAGE :</label>
-                        <div >
-                            Je soussigné(e)
-                            <input type="text" id="imageRightName" placeholder="Nom de l’adhérent ou du parent" class="form-control d-inline w-auto">
-                            autorise en ma qualité de
-                            <input type="text" id="imageRightRole" placeholder="Responsable légal ou adhérent" class="form-control d-inline w-auto">
-                            l'association sportive JudoClubRetiers à diffuser les photographies prises à l'occasion des entraînements, des compétitions sportives et autres manifestations sportives sur lesquelles figure
-                            <input type="text" id="imageSubject" placeholder="Nom de l'enfant ou moi-même" class="form-control d-inline w-auto"> 
-                            en vue de : Les mettre en ligne à la disposition de toute personne qui viendra se connecter: sur le site internet de l'association "Judo Club Retiers" désigné à
-                            l'addresse suivante : ADRESSE A MODIFIER, sur la page facebook de Judo Club Retiers et compte instagram Judo Club Retiers.
-                            Les publier dans les journaux à destinations de tout public dans le cadre de reportages à caractère sportif.
-                            Cette autorisation est valable pour une durée de 1 ans à compter de la présente et peut être révoqué à tout moment.
-
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>DOCUMENTS A REMETTRE :</label>
-                        <div>
-                           Certificat médical ou fiche renseignements (pour le taiso et les judokas non compétiteur) ou ertificat médical ou photocopie du passeport signé par le medcin (pour les compétiteurs). J'atteste satisfaire au questionnaire santé :
-                            <input type="radio" name="certifMed" value="oui"> Oui
-                            <input type="radio" name="certifMed" value="non" checked> Non
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>TARIFS :</label>
-                        <div>
-                           Licence 41€ + Cours 114€    Total 155€ <br>
-                           Famille à partir de 3 inscrits    Remise 10% sur une inscription <br>
-                           Chèques vacances et coupons sport acceptés <br>
-                           Possibilité de paiement en 3 fois les 01/10, 01/12 et 01/03
-                        </div>
-                    </div>
-
-                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="submit" class="btn btn-success" id="confirmPdfButton">Confirmer et générer le PDF</button>
+        {% endif %}
+    </div>
+
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">Vérifications avant génération du PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="pdfChecksForm">
+                        <div class="mb-3">
+                            <label>Statut de l'adhérent :</label><br>
+                            <input type="radio" name="ageStatus" value="majeur" checked> Majeur
+                            <input type="radio" name="ageStatus" value="mineur"> Mineur
+                        </div>
+
+                        <div id="parentAuthorization" class="mb-3" style="display: none;">
+                            <label>Autorisation parentale :</label>
+                            <div>
+                                Je soussigné(e), <input type="text" id="parentName" placeholder="Nom du parent" class="form-control d-inline w-auto">
+                                parent ou tuteur légal de l'enfant <input type="text" id="childName" placeholder="Nom de l'enfant" class="form-control d-inline w-auto">
+                                autorise le professeur, les organisateurs et l'encadrement du club à prendre toutes les mesures nécessaires en cas d'urgence médicale.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>ASSURANCE :</label><br>
+                            <div>
+                                L'établissement de la présente licence permet à son titulaire de bénéficier de l'assurance Responsabilité Civile souscrite par la FFJDA auprès de SMACL Assurance en partenariat avec le Crédit Agricole Assurances. De plus, la FFJDA lui donne la possibilité de bénéficier de l'assurance Accidents Corporels, souscrite auprès de SMACL Assurances en partenariat avec le Crédit Agricole Assurances. 
+                                Le soussigné déclare avoir pris connaissance et accepté l'ensemble de ces garanties telles qu'indiquées dans la notice d'information qui lui est remise. 
+                                Le montant de l'assurance Accidents Corporels est de 2,00€ TTC. 
+                                L'adhésion à plusieurs disciplines fédérales n'entraîne pas le cumul de garanties d'assurances. 
+                                Le soussigné déclare avoir été informé, dans la notice d'assurance, des possibilités d'extensions optionnelles complémentaires aux garanties de base ou de toute autre garantie adaptée à sa situation, qu'il peut avoir intérêt à souscrire personnellement auprès de SMACL Assurances en partenariat avec Crédit Agricole Assurances (bulletin de souscription disponible auprès du club, téléchargeable sur le site internet de la FFJDA www.ffjda.com) ou de l'assureur de son choix. 
+                                La FFJDA informe ses licenciés de leur intérêt à souscrire une assurance Accidents Corporels. 
+                                En cas de refus de souscription de l'assurance Accidents Corporels proposée par la FFJDA, le club doit s'assurer que le soussigné a bien pris connaissance des informations assurances figurant au dos du formulaire à conserver par le licencié et qu'il prend sa décision en toute connaissance de cause.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>DONNÉES PERSONNELLES : (RGPD)</label><br>
+                            <div> 
+                                Les données à caractère personnel vous concernant sont indispensables à la gestion de votre licence par la FFJDA. À défaut, votre demande de licence ou renouvellement de licence ne pourra être prise en considération. Vous autorisez expressément la FFJDA à traiter et conserver par informatique les données vous concernant. La FFJDA vous informe qu'elle est susceptible de vous adresser, en tant que licencié, des informations sur les activités et la vie de la fédération ainsi que des disciplines fédérales. Vous disposez d'un droit d'accès, de rectification et de mise à jour des données vous concernant auprès du service licence de la FFJDA (licences@ffjudo.com), auprès de votre club via l'espace club ou directement via votre espace licencié. 
+                                Je souhaite recevoir des informations ou des offres commerciales de la FFJDA et de ses partenaires économiques (vos données personnelles ne seront pas transmises à ces partenaires) :
+                            </div>
+                            <input type="radio" name="ffjdaCom" value="oui"> Oui
+                            <input type="radio" name="ffjdaCom" value="non" checked> Non
+                        </div>
+
+                        <div class="mb-3">
+                            <label>DROIT À L'IMAGE :</label>
+                            <div>
+                                Je soussigné(e), <input type="text" id="imageRightName" placeholder="Nom de l'adhérent ou du parent" class="form-control d-inline w-auto">
+                                autorise en ma qualité de <input type="text" id="imageRightRole" placeholder="Responsable légal ou adhérent" class="form-control d-inline w-auto">
+                                l'association sportive Judo Club Retiers à diffuser les photographies prises à l'occasion des entraînements, des compétitions sportives et autres manifestations sportives sur lesquelles figure <input type="text" id="imageSubject" placeholder="Nom de l'enfant ou moi-même" class="form-control d-inline w-auto">. Ces photographies pourront être mises en ligne sur le site internet de l'association "Judo Club Retiers", sur sa page Facebook et son compte Instagram. Elles pourront également être publiées dans les journaux à destination du grand public dans le cadre de reportages sportifs. Cette autorisation est valable pour une durée de 1 an à compter de la présente et peut être révoquée à tout moment.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>DOCUMENTS À REMETTRE :</label>
+                            <div>
+                                Un certificat médical ou une fiche de renseignements (pour les pratiquants de Taiso et les judokas non compétiteurs) ou un certificat médical ou une photocopie du passeport signé par un médecin (pour les compétiteurs). Je confirme avoir pris connaissance et satisfait au questionnaire de santé :
+                                <input type="radio" name="certifMed" value="oui"> Oui
+                                <input type="radio" name="certifMed" value="non" checked> Non
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>TARIFS :</label>
+                            <div>
+                                Licence 41€ + Cours 114€ = Total 155€ <br>
+                                Familles : À partir de 3 inscrits, une remise de 10% sur une inscription. <br>
+                                Chèques vacances et coupons sport acceptés. <br>
+                                Possibilité de paiement en 3 fois : 01/10, 01/12 et 01/03.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>RÈGLEMENT :</label>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" value="1_cheque" id="pay1" checked>
+                                    <label class="form-check-label" for="pay1">1 seul chèque</label>
+                                </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="3_cheques" id="pay3">
+            <label class="form-check-label" for="pay3">3 chèques</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="carte_bancaire" id="pay_cb">
+            <label class="form-check-label" for="pay_cb">Carte bancaire</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="cheques_vacances" id="pay_cv">
+            <label class="form-check-label" for="pay_cv">Chèques vacances / Coupon sport</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="espece" id="pay_cash">
+            <label class="form-check-label" for="pay_cash">Espèces</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="virement" id="pay_virement">
+            <label class="form-check-label" for="pay_virement">Virement bancaire</label>
+        </div>
+    </div>
+    </div>
+
+    <div class="mb-3">
+
+    <label>SIGNATURE :</label>
+    <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="finalConfirmCheckbox">
+    <label class="form-check-label" for="finalConfirmCheckbox">
+        Je confirme avoir pris connaissance de toutes les informations ci-dessus et m'engage à respecter le règlement intérieur.
+    </label>
+</div>
+</div>
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success" id="confirmPdfButton">Valider et confirmer l'inscription</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div style="text-align: center; margin-top: 40px;">
+            <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'acceuil</a>
+        </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -145,15 +242,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmBtn = document.getElementById('confirmPdfButton');
     const modalElement = document.getElementById('pdfModal');
 
+    const modal = new bootstrap.Modal(modalElement, {
+        backdrop: false,
+        keyboard: true
+    });
+
+    const openModal = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Attendre un peu le temps que le scroll se fasse, puis afficher le modal
+        setTimeout(() => {
+            modal.show();
+        }, 400); // Ajuste la durée si besoin
+    };
+
+    document.getElementById('openModalBtn').addEventListener('click', openModal);
+
     ageRadios.forEach(radio => {
         radio.addEventListener('change', () => {
             parentAuth.style.display = (radio.value === 'mineur' && radio.checked) ? 'block' : 'none';
         });
-    });
-
-    const modal = new bootstrap.Modal(modalElement, {
-        backdrop: false,
-        keyboard: true
     });
 
     confirmBtn.addEventListener('click', () => {
@@ -167,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const imageRightRole = document.getElementById('imageRightRole').value.trim();
         const imageSubject = document.getElementById('imageSubject').value.trim();
 
-        const parentText = `Je soussigné(e) ${parentName} parent ou tuteur légal de l'enfant ${childName} autorise le professeur, les organisateurs et l'encadrement du club à prendre toutes les mesures nécessaires en cas d'urgence médicale.`;
-        const imageText = `Je soussigné(e) ${imageRightName} autorise en ma qualité de ${imageRightRole} l'association sportive JudoClubRetiers à diffuser les photographies prises à l'occasion des entraînements, des compétitions sportives et autres manifestations sportives sur lesquelles figure ${imageSubject}.`;
+        const parentText = `Je soussigné(e) ${parentName} parent ou tuteur légal de l'enfant ${childName} autorise le professeur...`;
+        const imageText = `Je soussigné(e) ${imageRightName} autorise l'association sportive JudoClubRetiers...`;
 
         if (ageStatus === 'mineur' && (parentName.length < 1 || childName.length < 1)) {
             alert("Merci de remplir l'autorisation parentale.");
@@ -186,9 +294,21 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('popup_imageRightText').value = imageText;
         document.getElementById('popup_certifMed').value = certifMed;
 
+        const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked')?.value || '';
+const isFinalConfirmed = document.getElementById('finalConfirmCheckbox').checked;
+
+if (!isFinalConfirmed) {
+    alert("Vous devez confirmer avoir pris connaissance des informations et accepter le règlement intérieur.");
+    return;
+}
+
+document.getElementById('popup_paymentMethod').value = selectedPayment;
+document.getElementById('popup_signed').value = isFinalConfirmed ? 'oui' : 'non';
+
         modal.hide();
         document.getElementById('inscription-form').submit();
     });
 });
 </script>
+
 {% endblock %}

@@ -22,5 +22,19 @@
     <p><strong>Autorisation parentale :</strong><br>{{ parentText|nl2br }}</p>
     <p><strong>Droit à l'image :</strong><br>{{ imageRightText|nl2br }}</p>
     <p><strong>Certificat médical :</strong> {{ certifMed }}</p>
+    <p><strong>Moyen de règlement :</strong> 
+    {% if paymentMethod == '1_cheque' %}1 seul chèque
+    {% elseif paymentMethod == '3_cheques' %}3 chèques
+    {% elseif paymentMethod == 'carte_bancaire' %}Carte bancaire
+    {% elseif paymentMethod == 'cheques_vacances' %}Chèques vacances / Coupon sport
+    {% elseif paymentMethod == 'espece' %}Espèces
+    {% elseif paymentMethod == 'virement' %}Virement bancaire
+    {% else %}Non spécifié
+    {% endif %}
+</p>
+
+<p><strong>Engagement signé :</strong> 
+    {{ signed == 'oui' ? 'Oui, l’utilisateur a confirmé son engagement.' : 'Non' }}
+</p>
 </body>
 </html>

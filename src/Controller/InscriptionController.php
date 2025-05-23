@@ -33,6 +33,8 @@ class InscriptionController extends AbstractController
             $parentText = $request->request->get('popup_parentText');
             $imageRightText = $request->request->get('popup_imageRightText');
             $certifMed = $request->request->get('popup_certifMed');
+            $paymentMethod = $request->request->get('popup_paymentMethod');
+$signed = $request->request->get('popup_signed');
 
             // Persistance des données dans la base de données
             $em->persist($inscription);
@@ -40,13 +42,15 @@ class InscriptionController extends AbstractController
 
             // Génération du contenu PDF
             $pdfContent = $this->renderView('inscription/pdf.html.twig', [
-                'inscription' => $inscription,
-                'ageStatus' => $ageStatus,
-                'ffjdaCom' => $ffjdaCom,
-                'parentText' => $parentText,
-                'imageRightText' => $imageRightText,
-                'certifMed' => $certifMed,
-            ]);
+    'inscription' => $inscription,
+    'ageStatus' => $ageStatus,
+    'ffjdaCom' => $ffjdaCom,
+    'parentText' => $parentText,
+    'imageRightText' => $imageRightText,
+    'certifMed' => $certifMed,
+    'paymentMethod' => $paymentMethod,
+    'signed' => $signed,
+]);
 
             // Configuration de Dompdf pour générer le PDF
             $options = new Options();
@@ -70,7 +74,8 @@ class InscriptionController extends AbstractController
             $bus->dispatch($sendEmailMessage);
 
             // Message flash de confirmation
-            $this->addFlash('success', 'Le PDF a été généré et l’email envoyé par Messenger.');
+            $this->addFlash('success', 'Votre inscription a bien été prise en compte et transmise au club.');
+
 
             // Redirection vers la page d'inscription
             return $this->redirectToRoute('inscription');

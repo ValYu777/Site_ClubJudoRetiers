@@ -1,33 +1,114 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue au Club de Judo{% endblock %}
+{% block title %}Bienvenue au Judo Club Retiers{% endblock %}
 
 {% block stylesheets %}
     <style>
+        /* Page container avec padding réduit et plus d'espace pour le contenu */
         .page-container {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: flex-start;
-            padding: 40px;
-            gap: 40px;
+            padding: 20px;
+            gap: 20px;
             flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #calendar-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 700px;
+            padding: 10px;
+            
         }
 
         #calendar {
-            max-width: 600px;
-            flex: 1;
+             width: 100%;
+    max-height: 500px;
+    background-color: white; /* Fond blanc */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style pour l'image du calendrier avec texte en bas */
+        .calendar-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: url('/images/judo_banner.jpg') center/cover no-repeat;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        /* Style pour le texte en bas de l'image */
+        .calendar-image .image-text {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* Boutons de navigation FullCalendar */
+.fc .fc-button {
+    background-color: rgb(40, 49, 124); /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover */
+.fc .fc-button:hover {
+    background-color: rgb(70, 78, 149); /* Rouge foncé au survol */
+    color: white;
+}
+
+
+
+        /* Style pour les tooltips (info-bulles) */
+        .tippy-box {
+            background-color: white !important;
+            color: black !important;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            font-size: 14px;
+            z-index: 9999;
         }
 
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            max-width: 350px;
-            width: 100%;
+            width: 300px;
+            height: 720px; /* Hauteur fixe pour 4 éléments visibles */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Conteneur des éléments de la sidebar */
+        .sidebar-items-container {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.6s ease-in-out;
         }
 
         .sidebar-item {
-            position: relative;
             width: 100%;
             height: 180px;
             border-radius: 16px;
@@ -35,11 +116,9 @@
             text-decoration: none;
             color: white;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .sidebar-item:hover {
-            transform: scale(1.03);
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
         }
 
         .sidebar-item img {
@@ -54,17 +133,139 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 12px;
+            padding: 10px;
             background: rgba(0, 0, 0, 0.5);
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
         }
 
         .example-wrapper h1 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: 600;
         }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-item {
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            #calendar-container {
+                max-width: 100%;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .sidebar-item {
+                height: 140px;
+            }
+
+            .calendar-image {
+                height: 180px;
+            }
+        }
+
+        .btn-primary {
+            background-color: #1e1e2f;
+            border: none;
+            color: white;
+            padding: 8px 25px;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #b3001b;
+        }
+
+        .left-column {
+            flex: 2;
+            max-width: calc(100% - 280px); /* Laisser de la place à la sidebar */
+        }
+
+        .actualite-cards-container {
+            display: flex;
+            gap: 20px; /* Espace entre les cartes */
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .actualite-card {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            width: 48%; /* Deux cartes côte à côte */
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: flex-end; /* Aligne le texte en bas de l'image */
+        }
+
+         .actualite-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .actualite-card span {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            color:white;
+        }
+
+        .actualite-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5); /* gris foncé transparent */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.actualite-overlay a {
+    color: white;
+    text-decoration: none;
+}
+
+.actualite-overlay a:hover {
+    text-decoration: underline;
+}
+
     </style>
 {% endblock %}
 
@@ -76,33 +277,76 @@
     </nav>
 {% endblock %}
 
-
 {% block body %}
     <div class="example-wrapper">
-        <h1>Bienvenue sur le site du club de judo</h1>
+        <h1>Bienvenue au Judo Club Retiers</h1>
 
         <div class="page-container">
-            <!-- Calendrier -->
-            <div id="calendar"></div>
+            <!-- Colonne gauche : calendrier + actualités -->
 
-            <!-- Liens rapides -->
+
+            <div class="left-column">
+                <div id="calendar"></div>
+                <div class="calendar-image" style="background: none; box-shadow: none; height: auto;">
+                    <div style="background-color: #f7f7f7; padding: 20px; border-radius: 12px;">
+                        <h2 style="margin-bottom: 15px; font-size: 22px; font-weight: 600;">Actualités</h2>
+
+                        <div class="actualite-cards-container">
+                             {% if lastAlbum %}
+                                <div class="actualite-card text-white"
+                                     style="background-image: {% if lastAlbum.photos|first.imagePath %}url('{{ asset(lastAlbum.photos|first.imagePath) }}'){% else %}none{% endif %};">
+                                    <div class="actualite-overlay">
+    <a href="{{ path('galerie_show', { id: lastAlbum.id }) }}">{{ lastAlbum.nom }}</a>
+</div>
+                                </div>
+                            {% else %}
+                                <p>Aucun album pour le moment.</p>
+                            {% endif %}
+
+                            {% if lastOperation %}
+                                <div class="actualite-card text-white"
+                                     style="background-image: {% if lastOperation.imagePath %}url('{{ asset('uploads/operations/' ~ lastOperation.imagePath) }}'){% else %}none{% endif %};">
+                                    <div class="actualite-overlay">
+    <a href="{{ path('operation_show', { id: lastOperation.id }) }}">{{ lastOperation.nom }}</a>
+</div>
+
+                                </div>
+                            {% else %}
+                                <p>Aucune opération pour le moment.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite : sidebar -->
             <div class="sidebar">
-                <a href="{{ path('horaires') }}" class="sidebar-item">
-                    <img src="/images/logo_judo.png" alt="Horaires">
-                    <span>Horaires</span>
-                </a>
-                <a href="{{ path('inscription') }}" class="sidebar-item">
-                    <img src="/images/logo_judo.png" alt="Inscription">
-                    <span>Inscription</span>
-                </a>
-                <a href="{{ path('galerie') }}" class="sidebar-item">
-                    <img src="/images/logo_judo.png" alt="Galerie">
-                    <span>Galerie</span>
-                </a>
-                <a href="{{ path('boutique') }}" class="sidebar-item">
-                    <img src="/images/logo_judo.png" alt="Boutique">
-                    <span>Boutique</span>
-                </a>
+                <div class="sidebar-items-container">
+                    <a href="{{ path('horaires') }}" class="sidebar-item">
+                        <img src="/images/logo_horaires.jpg" alt="Horaires">
+                        <span>Horaires des cours</span>
+                    </a>
+                    <a href="{{ path('galerie') }}" class="sidebar-item">
+                        <img src="/images/logo_galerie.jpg" alt="Galerie">
+                        <span>Galerie</span>
+                    </a>                           
+                    <a href="{{ path('resultat') }}" class="sidebar-item">
+                        <img src="/images/logo_resultats.jpg" alt="Résultats">
+                        <span>Nos résultats</span>
+                    </a>
+                    <a href="{{ path('inscription') }}" class="sidebar-item">
+                        <img src="/images/logo_inscription.jpg" alt="Inscription">
+                        <span>Inscription</span>
+                    </a>  
+                    <a href="{{ path('planning') }}" class="sidebar-item">
+                        <img src="/images/logo_calendrier.jpg" alt="Calendrier">
+                        <span>Calendrier</span>
+                    </a>
+                    <a href="{{ path('operation_index') }}" class="sidebar-item">
+                        <img src="/images/logo_operation.jpg" alt="Opérations">
+                        <span>Nos opérations</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -112,5 +356,62 @@
             </div>
         {% endif %}
     </div>
-{% endblock %}
 
+    <script>
+    const container = document.querySelector('.sidebar-items-container');
+    const items = Array.from(container.children);
+    const itemHeight = 180;
+    const visibleCount = 4;
+    const totalItems = items.length;
+
+    // Duplique les premiers éléments à la fin pour permettre une boucle fluide
+    for (let i = 0; i < visibleCount; i++) {
+        const clone = items[i].cloneNode(true);
+        container.appendChild(clone);
+    }
+
+    let currentIndex = 0;
+
+    function updateVisibleItems() {
+        const allItems = container.children;
+        for (let i = 0; i < allItems.length; i++) {
+            const isVisible = i >= currentIndex && i < currentIndex + visibleCount;
+            allItems[i].style.opacity = isVisible ? '1' : '0';
+        }
+    }
+
+    function rotateSidebar() {
+        currentIndex++;
+
+        // Appliquer l’animation
+        container.style.transition = 'transform 0.6s ease-in-out';
+        container.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
+
+        updateVisibleItems();
+
+        // Si on a atteint la fin réelle (originals + clones)
+        if (currentIndex === totalItems) {
+            // Réinitialise discrètement sans animation
+            setTimeout(() => {
+                container.style.transition = 'none';
+                container.style.transform = `translateY(0px)`;
+                currentIndex = 0;
+                updateVisibleItems();
+
+                // Forcer reflow
+                void container.offsetWidth;
+
+                // Réactiver l'animation
+                container.style.transition = 'transform 0.6s ease-in-out';
+            }, 700); // doit être > durée de transition
+        }
+    }
+
+    // Lancer le cycle toutes les 8 secondes
+    setInterval(rotateSidebar, 8000);
+
+    // Afficher initialement les bons éléments
+    updateVisibleItems();
+</script>
+
+{% endblock %}

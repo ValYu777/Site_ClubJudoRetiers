@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Compétitions{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Liste des compétitions</h1>
+
+    <a href="{{ path('admin_competition_new') }}" class="btn btn-success mb-3">Ajouter une compétition</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competition in competitions %}
+                <tr>
+                    <td>{{ competition.nom }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="1">Aucune compétition enregistrée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

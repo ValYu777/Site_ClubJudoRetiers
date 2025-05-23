@@ -2,7 +2,6 @@
 
 {% block title %}Ajouter un Événement{% endblock %}
 
-
 {% block body %}
     <h1>Ajouter un événement</h1>
 
@@ -11,7 +10,10 @@
         {{ form_row(form.description) }}
         {{ form_row(form.start) }}
         {{ form_row(form.end) }}
-        {{ form_row(form.discipline) }}
+        {# Affiche le champ disciplines avec cases à cocher #}
+        {{ form_row(form.disciplines) }}
+        {{ form_row(form.prospectus) }}
+        {{ form_row(form.color) }}
         <button class="btn btn-primary">Créer</button>
     {{ form_end(form) }}
 

@@ -19,10 +19,10 @@ final class GalerieController extends AbstractController
     public function index(AlbumRepository $albumRepository, PhotoRepository $photoRepository): Response
     {
         // On récupère tous les albums
-        $albums = $albumRepository->findAll();
+        $albums = $albumRepository->findBy([], ['id' => 'DESC']);
 
         // On récupère toutes les photos, triées par date de manière décroissante
-        $photos = $photoRepository->findBy([], ['updatedAt' => 'DESC']);
+        $photos = $photoRepository->findBy([], ['updatedAt' => 'ASC']);
 
         // On passe les albums et les photos à la vue
         return $this->render('galerie/index.html.twig', [
@@ -57,7 +57,7 @@ final class GalerieController extends AbstractController
         }
     
         // Récupération des photos du bon album
-        $photos = $photoRepository->findBy(['album' => $album], ['updatedAt' => 'DESC']);
+        $photos = $photoRepository->findBy(['album' => $album], ['updatedAt' => 'ASC']);
     
         return $this->render('galerie/show.html.twig', [
             'album' => $album,

@@ -26,8 +26,8 @@ class Evenement
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $discipline = null;
+    #[ORM\Column(type: 'json')]
+private array $disciplines = [];
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $prospectus = null;
@@ -114,15 +114,14 @@ public function setColor(?string $color): static
         return $this;
     }
 
-    public function getDiscipline(): ?string
-    {
-        return $this->discipline;
-    }
+    public function getDisciplines(): array
+{
+    return $this->disciplines;
+}
 
-    public function setDiscipline(string $discipline): static
-    {
-        $this->discipline = $discipline;
-
-        return $this;
-    }
+public function setDisciplines(?array $disciplines): static
+{
+    $this->disciplines = $disciplines ?? [];
+    return $this;
+}
 }

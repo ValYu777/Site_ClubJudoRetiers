@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Règlement Intérieur{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+        <li class="breadcrumb-item">Services</li>
+        <li class="breadcrumb-item active" aria-current="page">Reglement Intérieur</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1 style="text-align: center;">Documents</h1>
+
+
+    <h2 class="mb-4">Règlement Intérieur du Club</h2>
+
+    <!-- Affichage du PDF -->
+    <div class="pdf-viewer" style="text-align: center; margin-top: 30px;">
+        <embed src="{{ asset('uploads/pdf/Certificat_d_assurance_01_02_2025.pdf') }}" type="application/pdf" width="80%" height="600px" />
+        <br>
+        <a href="{{ asset('uploads/pdf/Certificat_d_assurance_01_02_2025.pdf') }}" download class="btn btn-primary mt-3">
+            Télécharger le règlement intérieur (PDF)
+        </a>
+    </div>
+
+    <h2 class="mb-4">Questionnaire médical pour majeurs</h2>
+
+    <!-- Affichage du PDF -->
+    <div class="pdf-viewer" style="text-align: center; margin-top: 30px;">
+        <embed src="{{ asset('uploads/pdf/QUESTIONNAIRE_MEDICAL_MAJEURS.pdf') }}" type="application/pdf" width="80%" height="600px" />
+        <br>
+        <a href="{{ asset('uploads/pdf/QUESTIONNAIRE_MEDICAL_MAJEURS.pdf') }}" download class="btn btn-primary mt-3">
+            Télécharger le questionnaire médical pour majeurs (PDF)
+        </a>
+    </div>
+
+    <h2 class="mb-4">Questionnaire médical pour mineurs</h2>
+
+    <!-- Affichage du PDF -->
+    <div class="pdf-viewer" style="text-align: center; margin-top: 30px;">
+        <embed src="{{ asset('uploads/pdf/QUESTIONNAIRE_SANTE_MINEURS.pdf') }}" type="application/pdf" width="80%" height="600px" />
+        <br>
+        <a href="{{ asset('uploads/pdf/QUESTIONNAIRE_SANTE_MINEURS.pdf') }}" download class="btn btn-primary mt-3">
+            Télécharger le questionnaire médical pour mineurs (PDF)
+        </a>
+    </div>
+
+    <h2 class="mb-4">Attestation questionnaire médical pour majeurs</h2>
+
+    <!-- Affichage du PDF -->
+    <div class="pdf-viewer" style="text-align: center; margin-top: 30px;">
+        <embed src="{{ asset('uploads/pdf/ATTESTATION_QUESTIONNAIRE_MEDICAL_MAJEURS.pdf') }}" type="application/pdf" width="80%" height="600px" />
+        <br>
+        <a href="{{ asset('uploads/pdf/ATTESTATION_QUESTIONNAIRE_MEDICAL_MAJEURS.pdf') }}" download class="btn btn-primary mt-3">
+            Télécharger l'attestation questionnaire médical pour majeurs (PDF)
+        </a>
+    </div>
+
+    <h2 class="mb-4">Attestation questionnaire médical pour mineurs</h2>
+
+    <!-- Affichage du PDF -->
+    <div class="pdf-viewer" style="text-align: center; margin-top: 30px;">
+        <embed src="{{ asset('uploads/pdf/ATTESTATION_QUESTIONNAIRE_SANTE_MINEURS.pdf') }}" type="application/pdf" width="80%" height="600px" />
+        <br>
+        <a href="{{ asset('uploads/pdf/ATTESTATION_QUESTIONNAIRE_SANTE_MINEURS.pdf') }}" download class="btn btn-primary mt-3">
+            Télécharger l'attestation questionnaire médical pour mineurs (PDF)
+        </a>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 40px;">
+    <a href="{{ path('home') }}" class="btn btn-secondary">Retour à l'accueil</a>
+</div>
+{% endblock %}
